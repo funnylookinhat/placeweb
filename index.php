@@ -10,9 +10,7 @@ define('LOCKED-ACCESS',"blech.");
 
 require_once('helpers.php');
 
-// Do something fancy here if you'd like.
 $no_extra = TRUE;
-
 
 $compute_array = array();
 $compute_start = time();
@@ -32,6 +30,13 @@ if( isset($_GET['compute']) )
 	$no_extra = FALSE;
 }
 
+$refresh = FALSE;
+if( isset($_GET['refresh']) AND $_GET['refresh'] )
+{
+	$no_extra = FALSE;
+	$refresh = intval($_GET['refresh']);
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -47,15 +52,28 @@ if( isset($_GET['compute']) )
 			<p>Domain: <? echo $_SERVER['HTTP_HOST']; ?></p>
 			<p>Protocol: <? echo $_SERVER['SERVER_PROTOCOL']; ?></p>
 			<p>Host: <? echo $_SERVER['SERVER_SOFTWARE']; ?></p>
+			<p>Server Time: <? echo date("Y-m-d g:i:s a"); ?></p>
 		</div>
 		<div class="wrapper">
-			<h2>Extra Tests</h2>
+			<h2>Extra</h2>
 			<? if( $no_extra ) { ?> 
 				<p style="text-align: center;">None</p>
 			<? } ?>
 			<? if( $compute_count ) { ?>
 				<p>Compute Hashes: <? echo $compute_count; ?> in <? echo $compute_time; ?> seconds.</p>
 			<? } ?>
+			<? if( $refresh ) { ?>
+				<p>Page will refresh in <? echo $refresh; ?> seconds.</p>
+			<? } ?>
 		</div>
+		<? if( $refresh ) { ?>
+			<script type="text/javascript">
+				window.onload = function() {
+					setTimeout((function() {
+						window.location.reload();
+					}), <? echo ( $refresh * 1000 ); ?> );
+				}
+			</script>
+		<? } ?>
 	</body>
 </html>
