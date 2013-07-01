@@ -1,0 +1,124 @@
+html, body {
+	font-family: sans-serif;
+	background: #efefef;
+	color: #414141;
+}
+
+* { 
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	outline: none;
+	font-family: 'Ubuntu', sans-serif;
+}
+
+h1 {
+	font-size: 36px;
+	line-height: 36px;
+	margin: 100px 0px 0px 0px;
+	text-align: center;
+}
+
+h2 {
+	font-size: 18px;
+	line-height: 18px;
+	margin: 0px 0px 10px 0px;
+	text-align: center;
+	border-bottom: 1px solid #cccccc;
+	padding-bottom: 10px;
+	position: relative;
+}
+
+p {
+	font-size: 14px;
+	line-height: 16px;
+	margin: 5px 0px;
+}
+
+.wrapper {
+	width: 500px;
+	margin: 75px auto;
+}
+
+.wrapper p {
+	padding: 0px 10px;
+}
+
+/*
+#controls {
+	margin-bottom: 20px;
+	width: 250px; 
+	margin: 0px auto 20px auto;
+	border: 1px solid #999999;
+	padding: 10px;
+	text-align: left;
+	font-size: 14px;
+}
+
+#controls p {
+	margin: 5px 0px;
+}
+
+#log-wrapper {
+	width: 600px;
+	margin: 0px auto;
+	border: 1px solid #999999;
+	padding: 10px;
+}
+
+#average {
+	position: absolute;
+	font-size: 14px;
+	line-height: 14px;
+	text-align: right;
+	margin-top: 4px;
+	font-weight: normal;
+	top: 0px;
+	width: 150px;
+	right: 0px;
+}
+
+#log {
+	height: 203px;
+	overflow: hidden;
+}
+
+#log p {
+	font-size: 12px;
+	line-height: 12px;
+	padding: 0px;
+	text-align: left;
+	height: 12px;
+	margin: 5px;
+}
+
+#log p span.time {
+	display: inline-block;
+	width: 125px;
+}
+
+#log p span.timestamp {
+	float: right;
+}
+
+#startstop {
+	float: right;
+	margin-top: 3px;
+	font-size: 18px;
+	font-weight: bold;
+	color: #333333;
+	text-decoration: none;
+}
+
+#startstop:hover {
+	color: #336699;
+}
+
+input[type="text"] {
+	font-size: 14px;
+	padding: 3px 5px;
+	width: 100px;
+	border: 1px solid #cccccc;
+	background: white;
+}
+*/
