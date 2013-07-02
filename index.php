@@ -52,6 +52,7 @@ if( isset($_GET['refresh']) AND $_GET['refresh'] )
 			<p>Domain: <? echo $_SERVER['HTTP_HOST']; ?></p>
 			<p>Protocol: <? echo $_SERVER['SERVER_PROTOCOL']; ?></p>
 			<p>Host: <? echo $_SERVER['SERVER_SOFTWARE']; ?></p>
+			<p>Index Path: <? echo __FILE__; ?></p>
 			<p>Server Time: <? echo date("Y-m-d g:i:s a"); ?></p>
 		</div>
 		<div class="wrapper">
