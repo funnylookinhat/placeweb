@@ -17,6 +17,25 @@ $compute_start = time();
 $compute_time = FALSE;
 $compute_count = FALSE;
 
+$data = new stdClass;
+
+if( file_exists('data.json') ) 
+{
+	$data = json_decode(file_get_contents('data.json'));
+}
+
+if( isset($_GET['set-welcome']) )
+{
+	$data->welcome = $_GET['set-welcome'];
+}
+
+if( isset($_GET['set-bgcolor']) )
+{
+	$data->bgcolor = $_GET['set-bgcolor'];
+}
+
+
+
 if( isset($_GET['compute']) )
 {
 	$compute_count = intval($_GET['compute']);
@@ -37,15 +56,32 @@ if( isset($_GET['refresh']) AND $_GET['refresh'] )
 	$refresh = intval($_GET['refresh']);
 }
 
+$welcome = "Placeweb";
+$bgcolor = 'efefef';
+
+if( isset($data->welcome) ) 
+	$welcome = $data->welcome;
+
+if( isset($data->bgcolor) )
+	$bgcolor = $data->bgcolor;
+
+// Write our changes.
+
+$warning = FALSE;
+
+if( ! file_put_contents('data.json', json_encode($data)) ) {
+	$warning = 'COULD NOT WRITE DATA FILE!';
+}
 
 ?>
 <!DOCTYPE html>
-<html>
+<html style="background: #<? echo $bgcolor; ?>;">
 	<head>
 		<link rel="stylesheet" type="text/css" href="/css/placeweb.css" media="all" />
 	</head>
-	<body>
-		<h1>Placeweb</h1>
+	<body style="background: #<? echo $bgcolor; ?>;">
+		<? if( $warning ) { echo '<h2>'.$warning.'</h2>'; } ?>
+		<h1><? echo $welcome; ?></h1>
 		<div class="wrapper">
 			<h2>Box Statistics</h2>
 			<p>IP Address: <? echo $_SERVER['SERVER_ADDR']; ?></p>
