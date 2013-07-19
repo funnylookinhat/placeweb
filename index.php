@@ -10,6 +10,8 @@ define('LOCKED-ACCESS',"blech.");
 
 require_once('helpers.php');
 
+$db = require_once('database.php');
+
 $no_extra = TRUE;
 
 $compute_array = array();
@@ -19,7 +21,54 @@ $compute_count = FALSE;
 
 $data = new stdClass;
 
-if( file_exists('data.json') ) 
+$warning = "";
+$conn = FALSE;
+
+if( $db &&
+	isset($db['host']) &&
+	isset($db['name']) &&
+	isset($db['user']) &&
+	isset($db['pass']) )
+{
+	$conn = mysql_connect(
+		$db['host'],
+		$db['user'],
+		$db['pass']
+	);
+
+	if( ! $conn ) 
+		$warning .= "<br>Could not connect to database!";
+
+	mysql_select_db($db['name'],$conn);
+
+	$tables_result = mysql_query('SHOW TABLES;',$conn);
+
+	if( ! mysql_num_rows($tables_result) )
+	{
+		$keypair_table_query = "CREATE TABLE IF NOT EXISTS `keypairs` (
+			`id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			`key` VARCHAR(256) DEFAULT NULL,
+			`value` VARCHAR(256) DEFAULT NULL,
+			PRIMARY KEY (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+		
+		if( ! mysql_query($keypair_table_query) )
+			$warning .= "<br>Could not create database table! ".mysql_error();
+	}
+
+	$keypairs_query = 'SELECT * FROM keypairs WHERE id IS NOT NULL';
+	$keypairs_result = mysql_query($keypairs_query);
+
+	if( ! $keypairs_result )
+		$warning .= "<br>Could not get keypairs. ".mysql_error();
+
+	if( $keypairs_result ) 
+	{
+		while( $keypair = mysql_fetch_array($keypairs_result) )
+			$data->{$keypair['key']} = $keypair['value'];
+	}
+}
+else if( file_exists('data.json') ) 
 {
 	$data = json_decode(file_get_contents('data.json'));
 }
@@ -67,10 +116,20 @@ if( isset($data->bgcolor) )
 
 // Write our changes.
 
-$warning = FALSE;
-
-if( ! file_put_contents('data.json', json_encode($data)) ) {
-	$warning = 'COULD NOT WRITE DATA FILE!';
+if( $conn )
+{
+	foreach( $data as $key => $value )
+	{
+		$key = mysql_real_escape_string($key);
+		$value = mysql_real_escape_string($value);
+		if( mysql_num_rows(mysql_query('SELECT * FROM `keypairs` WHERE `key` = "'.$key.'"')) )
+			mysql_query('UPDATE `keypairs` SET `value` = "'.$value.'" WHERE `key` = "'.$key.'"');
+		else
+			mysql_query('INSERT INTO `keypairs` (`key`,`value`) VALUES ("'.$key.'","'.$value.'")');
+	}
+}
+else if( ! file_put_contents('data.json', json_encode($data)) ) {
+	$warning .= "<br>COULD NOT WRITE DATA FILE!";
 }
 
 ?>
