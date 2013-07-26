@@ -32,6 +32,6 @@ Time ( in seconds ) to wait before refreshing the page.
 
 /?refresh=3
 
-*Putting them all together*
+**Putting them all together**
 
 /?set-welcome=Testing%20Testing%201.2.3&set-bgcolor=6688aa&compute=10&refresh=5
