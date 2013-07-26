@@ -9,24 +9,24 @@ You can define a database in database.php, or persistent storage will use data.j
 
 ##Request Variables
 
-*set-welcome*
+**set-welcome**
 
 Set the welcome message for the page.
 /?set-welcome=Hello World
 
-*set-bgcolor*
+**set-bgcolor**
 
 Set the background color to a hex.
 
 /?set-bgcolor=6688aa
 
-*compute*
+**compute**
 
 Compute X number of hashes.  These are random and useless, but simulate load.
 
 /?compute=100
 
-*refresh*
+**refresh**
 
 Time ( in seconds ) to wait before refreshing the page.
 
